@@ -4226,6 +4226,24 @@ public class SqlValidatorImpl implements SqlValidatorWithHints {
     final SqlNode source = insert.getSource();
     if (source instanceof SqlSelect) {
       final SqlSelect sqlSelect = (SqlSelect) source;
+
+      int targetFieldCount = targetRowType.getFieldList().size();
+
+      List<SqlNode> selectColumns = sqlSelect.getSelectList().getList();
+      int sourceFieldCount = selectColumns.size();
+
+      boolean containsStar = selectColumns.stream().anyMatch(a -> {
+        if (a instanceof SqlIdentifier) {
+          return ((SqlIdentifier) a).isStar();
+        }
+        return false;
+      });
+
+      if (!containsStar && sourceFieldCount != targetFieldCount) {
+        //do check early
+        throw newValidationError(insert,
+                RESOURCE.unmatchInsertColumn(targetFieldCount, sourceFieldCount));
+      }
       validateSelect(sqlSelect, targetRowType);
     } else {
       final SqlValidatorScope scope = scopes.get(source);
