@@ -83,6 +83,10 @@ public abstract class SqlOperator {
   private final String name;
 
   /**
+   * Origin function name, In Mysql, Column name is case sensitive
+   */
+  private String originName;
+  /**
    * See {@link SqlKind}. It's possible to have a name that doesn't match the
    * kind
    */
@@ -132,6 +136,7 @@ public abstract class SqlOperator {
       SqlOperandTypeChecker operandTypeChecker) {
     assert kind != null;
     this.name = name;
+    this.originName = name;
     this.kind = kind;
     this.leftPrec = leftPrecedence;
     this.rightPrec = rightPrecedence;
@@ -205,6 +210,14 @@ public abstract class SqlOperator {
     return name;
   }
 
+  public void setOriginName(String originName) {
+    this.originName = originName;
+  }
+
+  public String getOriginName() {
+    return originName;
+  }
+
   /**
    * Returns the fully-qualified name of this operator.
    */
@@ -217,7 +230,7 @@ public abstract class SqlOperator {
   }
 
   public String toString() {
-    return name;
+    return originName;
   }
 
   public int getLeftPrec() {

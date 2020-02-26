@@ -593,6 +593,7 @@ public class CalcitePrepareImpl implements CalcitePrepare {
     final RelDataType x;
     final Prepare.PreparedResult preparedResult;
     final Meta.StatementType statementType;
+    SqlNode sqlNode = null;
     if (query.sql != null) {
       final CalciteConnectionConfig config = context.config();
       final SqlParser.ConfigBuilder parserConfig = createParserConfig()
@@ -607,7 +608,6 @@ public class CalcitePrepareImpl implements CalcitePrepare {
         parserConfig.setParserFactory(parserFactory);
       }
       SqlParser parser = createParser(query.sql,  parserConfig);
-      SqlNode sqlNode;
       try {
         sqlNode = parser.parseStmt();
         statementType = getStatementType(sqlNode.getKind());

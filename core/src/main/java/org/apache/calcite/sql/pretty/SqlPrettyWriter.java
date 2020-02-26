@@ -828,10 +828,13 @@ public class SqlPrettyWriter implements SqlWriter {
 
   public void keyword(String s) {
     maybeWhitespace(s);
+    pw.print(s);
+    /**
     pw.print(
         isKeywordsLowerCase()
             ? s.toLowerCase(Locale.ROOT)
             : s.toUpperCase(Locale.ROOT));
+     */
     charCount += s.length();
     if (!s.equals("")) {
       setNeedWhitespace(needWhitespaceAfter(s));

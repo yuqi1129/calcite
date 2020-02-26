@@ -276,12 +276,12 @@ public abstract class SqlUtil {
       }
       SqlIdentifier id = function.getSqlIdentifier();
       if (id == null) {
-        writer.keyword(operator.getName());
+        writer.keyword(operator.getOriginName());
       } else {
         unparseSqlIdentifierSyntax(writer, id, true);
       }
     } else {
-      writer.print(operator.getName());
+      writer.print(operator.getOriginName());
     }
     if (call.operandCount() == 0) {
       switch (call.getOperator().getSyntax()) {

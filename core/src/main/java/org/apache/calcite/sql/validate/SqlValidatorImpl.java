@@ -1182,6 +1182,8 @@ public class SqlValidatorImpl implements SqlValidatorWithHints {
             function.getFunctionType(), SqlSyntax.FUNCTION, overloads,
             catalogReader.nameMatcher());
         if (overloads.size() == 1) {
+          final SqlOperator operator = overloads.get(0);
+          operator.setOriginName(call.getOperator().getOriginName());
           ((SqlBasicCall) call).setOperator(overloads.get(0));
         }
       }
